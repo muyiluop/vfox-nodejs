@@ -11,7 +11,8 @@ function PLUGIN:Available(ctx)
         return available_result
     end
     local resp, err = http.get({
-        url = util.getBaseUrl() .. util.VersionSourceUrl
+        url = util.getBaseUrl() .. util.VersionSourceUrl,
+        headers = {["User-Agent"]= string.format("vfox-%s/%s",PLUGIN.name, PLUGIN.version)}
     })
     if err ~= nil or resp.status_code ~= 200 then
         return {}
