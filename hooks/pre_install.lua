@@ -45,7 +45,8 @@ function PLUGIN:PreInstall(ctx)
     local baseUrl = util.getBaseUrl() .. util.NodeBaseUrl:format(version)
 
     local resp, err = http.get({
-        url = baseUrl .. "SHASUMS256.txt"
+        url = baseUrl .. "SHASUMS256.txt",
+        headers = {["User-Agent"]= string.format("vfox-%s/%s",PLUGIN.name, PLUGIN.version)}
     })
     if err ~= nil or resp.status_code ~= 200 then
         error("get checksum failed")
@@ -54,6 +55,7 @@ function PLUGIN:PreInstall(ctx)
     return {
         version = version,
         url = baseUrl .. filename,
-        sha256 = checksum,
+        sha256 = checksum,,
+        headers = {["User-Agent"]= string.format("vfox-%s/%s",PLUGIN.name, PLUGIN.version)}
     }
 end
